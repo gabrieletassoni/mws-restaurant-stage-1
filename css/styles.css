@@ -198,10 +198,10 @@ nav h1 a {
   background-color: #fff;
   border: 2px solid #ccc;
   font-family: Arial, sans-serif;
-  margin-top: 1em;
+  margin: 0.5em 1em;
   padding: 0.8em;
   text-align: left;
-  width: calc(100% - 4px - 1.6em);
+  width: calc(100% - 4px - 1.6em - 2em);
 }
 
 #restaurants-list .restaurant-img {
@@ -243,31 +243,16 @@ nav h1 a {
 
 /* ====================== Restaurant Details ====================== */
 
-.inside header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-}
-
 .inside #map-container {
   background: blue none repeat scroll 0 0;
-  height: 87%;
-  position: fixed;
+  height: 420px;
   right: 0;
-  top: 80px;
-  width: 50%;
+  width: 100%;
 }
 
 .inside #map {
   background-color: #ccc;
   height: 100%;
-  width: 100%;
-}
-
-.inside #footer {
-  bottom: 0;
-  position: absolute;
   width: 100%;
 }
 
@@ -280,6 +265,7 @@ nav h1 a {
   margin: 15px 0 30px;
   text-transform: uppercase;
   line-height: 1.1;
+  text-align: center;
 }
 
 #restaurant-img {
@@ -301,19 +287,19 @@ nav h1 a {
   padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
-  width: 90%;
+  width: 100%;
 }
 
 #restaurant-container,
 #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
-  padding: 140px 40px 30px;
-  width: 50%;
+  padding: 1em;
+  width: 100%;
 }
 
 #reviews-container {
-  padding: 30px 40px 80px;
+  padding: 1em;
 }
 
 #reviews-container h2 {
@@ -334,11 +320,11 @@ nav h1 a {
   border: 2px solid #f3f3f3;
   display: block;
   list-style-type: none;
-  margin: 0 0 30px;
+  margin: 0.5em;
   overflow: hidden;
-  padding: 0 20px 20px;
+  padding: 0.5em;
   position: relative;
-  width: 100%;
+  width: calc(100% - 4px - 2em)%;
 }
 
 #reviews-list li p {
