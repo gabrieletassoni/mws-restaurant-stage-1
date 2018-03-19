@@ -80,7 +80,7 @@
     overflow: hidden;
     padding: 0.5em;
     position: relative;
-    width: calc(100% - 4px - 2em)%;
+    width: calc(100% - 4px - 2em);
   }
   
   #reviews-list li p {
