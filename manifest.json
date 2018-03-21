@@ -1,0 +1,6 @@
+{
+    "name": "Restaurant Reviews",
+    "scope": "/",
+    "display": "standalone",
+    "start_url": "/"
+  }
