@@ -1,13 +1,34 @@
-const version = 1;
-const currentCachePrefix = 'restaurant-reviews-';
-const currentCacheName = `${currentCachePrefix}cache-v${version}`;
+var currentCacheName = 'restaurant-reviews-cache-v35';
+
+self.addEventListener('install', function (event) {
+  event.waitUntil(
+    caches.open(currentCacheName).then(function (cache) {
+      return cache.addAll([
+        '/',
+        '/sw.js',
+        '/index.html',
+        '/restaurant.html',
+        '/css/breakpoints_details.css',
+        '/css/breakpoints.css',
+        '/css/details.css',
+        '/css/styles.css',
+        '/js/main.js',
+        '/js/restaurant_info.js',
+        '/js/dbhelper.js',
+        '/js/apphelper.js',
+        '/img/',
+        '/data/'
+      ]);
+    })
+  );
+});
 
 self.addEventListener('activate', function (event) {
   event.waitUntil(
     caches.keys().then(function (cacheNames) {
       return Promise.all(
         cacheNames.filter(function (cacheName) {
-          return cacheName.startsWith(currentCachePrefix) &&
+          return cacheName.startsWith('restaurant-reviews-') &&
             cacheName != currentCacheName;
         }).map(function (cacheName) {
           return caches.delete(cacheName);
@@ -16,9 +37,7 @@ self.addEventListener('activate', function (event) {
     })
   );
 });
-/**
- * @description This caches everything (Just to be sure)
- */
+
 self.addEventListener('fetch', function (event) {
   event.respondWith(
     caches.open(currentCacheName).then(function (cache) {
@@ -30,11 +49,11 @@ self.addEventListener('fetch', function (event) {
       });
     })
   );
-
 });
+
 self.addEventListener('message', function (event) {
   if (event.data.action === 'skipWaiting') {
     self.skipWaiting();
-    console.log('SW skip waiting')
+    console.log('skip waiting')
   }
 });
