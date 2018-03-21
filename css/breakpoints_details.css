@@ -1,4 +1,4 @@
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 800px) {
     .inside #map-container,
     #restaurant-container {
         width: 50%;
