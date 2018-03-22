@@ -35,19 +35,9 @@
 }
 
 @media screen and (min-width: 1024px) {
-    #restaurants-list,
-    #restaurant-container,
-    #reviews-container {
+    #maincontent {
         max-width: 1024px;
         margin-left: auto;
         margin-right: auto;
-    }
-}
-
-@media screen and (min-width: 1200px) {
-    #restaurants-list,
-    #restaurant-container,
-    #reviews-container {
-        max-width: 1200px;
     }
 }

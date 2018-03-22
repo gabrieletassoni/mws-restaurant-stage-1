@@ -1,4 +1,4 @@
-var currentCacheName = 'restaurant-reviews-cache-v37';
+var currentCacheName = 'restaurant-reviews-cache-v38';
 
 self.addEventListener('install', function (event) {
   event.waitUntil(
