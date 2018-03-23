@@ -130,18 +130,26 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
     ul.append(createRestaurantHTML(restaurant));
   });
   addMarkersToMap();
+  lazyLoad();
 }
 
 /**
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
+  // Lazy loading images as per David Walsh method:
+  // https://davidwalsh.name/lazyload-image-fade
+  const imgUrl = DBHelper.imageUrlForRestaurant(restaurant, 300);
   const li = document.createElement('li');
+  const noscriptImage = document.createElement('noscript');
+  noscriptImage.setAttribute('data-src', imgUrl);
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant, 300);
+  image.src = imgUrl;
+  image.setAttribute('data-src', '');
   image.alt = `${restaurant.name} restaurant`
-  li.append(image);
+  noscriptImage.append(image);
+  li.append(noscriptImage);
 
   const name = document.createElement('h2');
   name.tabIndex = 5;
@@ -165,6 +173,28 @@ createRestaurantHTML = (restaurant) => {
   li.append(more);
 
   return li;
+}
+
+/**
+ * Lazy loading images as per David Walsh method:
+ * https://davidwalsh.name/lazyload-image-fade
+ * With a bit of help from Yehuda's comment here:
+ * https://davidwalsh.name/lazyload-image-fade#comment-508330
+ */
+lazyLoad = () => {
+  [].forEach.call(document.querySelectorAll('noscript'), function(noscript) {
+    var img = new Image();
+    img.setAttribute('data-src', '');
+    // Setting some attributes using the original ones 
+    // from the actual img tag
+    img.className = noscript.firstElementChild.className;
+    img.alt = noscript.firstElementChild.alt;
+    noscript.parentNode.insertBefore(img, noscript);
+    img.onload = function() {
+      img.removeAttribute('data-src');
+    };
+    img.src = noscript.getAttribute('data-src');
+  });
 }
 
 /**

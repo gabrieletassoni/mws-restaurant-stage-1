@@ -240,3 +240,14 @@ nav h1 a {
   text-decoration: none;
   text-transform: uppercase;
 }
+
+/* USEFUL FOR NICE TRANSITION IN LAZY LOADING IMAGES */
+
+img {
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+img[data-src] {
+  opacity: 0;
+}
