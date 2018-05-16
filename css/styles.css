@@ -1,91 +1,6 @@
 @charset "utf-8";
 /* CSS Document */
 
-body,
-td,
-th,
-p {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 10pt;
-  color: #333;
-  line-height: 1.5;
-}
-
-body {
-  background-color: #f3f3f3;
-  margin: 0;
-  position: relative;
-}
-
-ul,
-li {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 10pt;
-  color: #333;
-}
-
-a {
-  color: orange;
-  text-decoration: none;
-}
-
-a:hover,
-a:focus {
-  color: #3397db;
-  text-decoration: none;
-}
-
-a img {
-  border: none 0px #fff;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 0 0 20px;
-}
-
-article,
-aside,
-canvas,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-  display: block;
-}
-
-section {
-  width: 100%;
-}
-
-#maincontent {
-  background-color: #f3f3f3;
-  min-height: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
-#footer {
-  background-color: #444;
-  color: #aaa;
-  font-size: 8pt;
-  letter-spacing: 1px;
-  padding: 25px;
-  text-align: center;
-  text-transform: uppercase;
-}
-
 /* ====================== Navigation ====================== */
 
 nav {
@@ -132,23 +47,32 @@ nav h1 a {
 /* Add a color to all links inside the list */
 
 #breadcrumb li a {
-  color: #0275d8;
-  text-decoration: none;
+  color: black;
+  text-decoration: underline;
 }
 
 /* Add a color on mouse-over */
 
 #breadcrumb li a:hover {
   color: #01447e;
-  text-decoration: underline;
+  text-decoration: underline overline;
 }
 
 /* ====================== Map ====================== */
 
-#map {
-  height: 400px;
+#map,
+#map-container {
+  /* height: 400px;
   width: 100%;
-  background-color: #ccc;
+  background-color: #ccc; */
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  transition: 1s;
+  transition-property: initial;
+  transition-duration: 1s;
+  transition-timing-function: initial;
+  transition-delay: initial;
 }
 
 /* ====================== Restaurant Filtering ====================== */
@@ -164,7 +88,8 @@ nav h1 a {
   font-weight: normal;
   line-height: 1;
   margin: 0 20px;
-  display: none; /* in small viewports I prefere to save this space */
+  display: none;
+  /* in small viewports I prefere to save this space */
 }
 
 .filter-options select {
@@ -175,7 +100,8 @@ nav h1 a {
   letter-spacing: 0;
   margin: 10px;
   width: calc(50% - 24px);
-  min-height: 48px; /* in small viewports I'd like to be sure to touch the select boxes */
+  min-height: 48px;
+  /* in small viewports I'd like to be sure to touch the select boxes */
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -229,7 +155,7 @@ nav h1 a {
 }
 
 #restaurants-list li a {
-  background-color: orange;
+  background-color: black;
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
@@ -250,4 +176,49 @@ img {
 
 img[data-src] {
   opacity: 0;
+}
+
+/* TABLET */
+
+@media screen and (min-width: 480px) {
+  .filter-options h2 {
+    display: unset;
+  }
+  .filter-options select {
+    min-height: 0;
+    width: auto;
+  }
+}
+
+/* DESKTOP */
+
+@media screen and (min-width: 600px) {
+  #restaurants-list,
+  #reviews-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  #restaurants-list li {
+    width: calc(50% - 4px - 1.6em - 2em);
+  }
+  #reviews-list li {
+    width: calc(50% - 4px - 2em)
+  }
+}
+
+/* BIGGER DESKTOPS */
+
+@media screen and (min-width: 980px) {
+  #restaurants-list li {
+    width: calc((33% - 4px - 1.6em - 2em));
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  nav,
+  #maincontent {
+    max-width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }

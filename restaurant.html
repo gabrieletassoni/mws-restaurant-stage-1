@@ -7,11 +7,93 @@
   <!-- Normalize.css for better cross-browser consistency -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <!-- Main CSS file -->
-  <link rel="stylesheet" href="css/styles.css" type="text/css">
-  <!-- Styles only useful in this page -->
-  <link rel="stylesheet" href="css/details.css" type="text/css">
-  <link rel="stylesheet" href="css/breakpoints.css" type="text/css">
-  <link rel="stylesheet" href="css/breakpoints_details.css" type="text/css">
+  <style>
+    body,
+    td,
+    th,
+    p {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10pt;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    body {
+      background-color: #f3f3f3;
+      margin: 0;
+      position: relative;
+    }
+
+    ul,
+    li {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10pt;
+      color: #333;
+    }
+
+    a {
+      color: orange;
+      text-decoration: none;
+    }
+
+    a:hover,
+    a:focus {
+      color: #3397db;
+      text-decoration: none;
+    }
+
+    a img {
+      border: none 0px #fff;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0 0 20px;
+    }
+
+    article,
+    aside,
+    canvas,
+    details,
+    figcaption,
+    figure,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    section {
+      display: block;
+    }
+
+    section {
+      width: 100%;
+    }
+
+    #maincontent {
+      background-color: #f3f3f3;
+      min-height: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    #footer {
+      background-color: #444;
+      color: #fff;
+      font-size: 8pt;
+      letter-spacing: 1px;
+      padding: 25px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+  </style>
+  <meta name="theme-color" content="#333"/>
   <title>Restaurant Info</title>
 </head>
 
@@ -21,14 +103,14 @@
     <!-- Beginning nav -->
     <nav>
       <h1>
-        <a href="/" tabindex="1">Restaurant Reviews</a>
+        <a href="/">Restaurant Reviews</a>
       </h1>
     </nav>
     <!-- Beginning breadcrumb -->
     <nav aria-label="Breadcrumb">
       <ul id="breadcrumb">
         <li>
-          <a href="/" tabindex="2">Home</a>
+          <a href="/">Home</a>
         </li>
       </ul>
     </nav>
@@ -39,17 +121,13 @@
 
   <!-- Beginning main -->
   <main id="maincontent">
-    <!-- Beginning map -->
-    <section id="map-container" tabindex="-1">
-      <div role="application" id="map" tabindex="-1"></div>
-    </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
-      <h2 id="restaurant-name" tabindex="5"></h2>
+      <h2 id="restaurant-name"></h2>
       <img id="restaurant-img">
-      <p id="restaurant-cuisine" tabindex="6"></p>
-      <p id="restaurant-address" tabindex="7"></p>
+      <p id="restaurant-cuisine"></p>
+      <p id="restaurant-address"></p>
       <table id="restaurant-hours"></table>
     </section>
     <!-- end restaurant -->
@@ -58,6 +136,10 @@
       <ul id="reviews-list"></ul>
     </section>
     <!-- End reviews -->
+    <!-- Beginning map -->
+    <section id="map-container">
+      <img id="map"></img>
+    </section>
   </main>
   <!-- End main -->
 
@@ -72,14 +154,32 @@
 
   <!-- Beginning scripts -->
   <!-- Database helpers -->
-  <script type="application/javascript" charset="utf-8" src="js/apphelper.js"></script>
-  <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/idb.min.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/apphelper.min.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/dbhelper.min.js"></script>
   <!-- Main javascript file -->
-  <script type="application/javascript" charset="utf-8" src="js/restaurant_info.js"></script>
-  <!-- Google Maps -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZbDc-qSx_lvq7HvGB82_TKsKJmcIjlWw&libraries=places&callback=initMap"></script>
+  <script type="application/javascript" charset="utf-8" src="js/restaurant_info.min.js"></script>
   <!-- End scripts -->
-
+  <noscript id="deferred-styles">
+    <link rel="stylesheet" href="css/styles.min.css">
+    <!-- Styles only useful in this page -->
+    <link rel="stylesheet" href="css/details.min.css" type="text/css">
+  </noscript>
+  <script>
+    var loadDeferredStyles = function () {
+      var addStylesNode = document.getElementById("deferred-styles");
+      var replacement = document.createElement("div");
+      replacement.innerHTML = addStylesNode.textContent;
+      document.body.appendChild(replacement)
+      addStylesNode.parentElement.removeChild(addStylesNode);
+    };
+    var raf = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+      window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    if (raf) raf(function () {
+      window.setTimeout(loadDeferredStyles, 0);
+    });
+    else window.addEventListener('load', loadDeferredStyles);
+  </script>
 </body>
 
 </html>

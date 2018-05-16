@@ -5,8 +5,93 @@
   <link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/breakpoints.css">
+  <style>
+    body,
+    td,
+    th,
+    p {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10pt;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    body {
+      background-color: #f3f3f3;
+      margin: 0;
+      position: relative;
+    }
+
+    ul,
+    li {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10pt;
+      color: #333;
+    }
+
+    a {
+      color: orange;
+      text-decoration: none;
+    }
+
+    a:hover,
+    a:focus {
+      color: #3397db;
+      text-decoration: none;
+    }
+
+    a img {
+      border: none 0px #fff;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0 0 20px;
+    }
+
+    article,
+    aside,
+    canvas,
+    details,
+    figcaption,
+    figure,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    section {
+      display: block;
+    }
+
+    section {
+      width: 100%;
+    }
+
+    #maincontent {
+      background-color: #f3f3f3;
+      min-height: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    #footer {
+      background-color: #444;
+      color: #fff;
+      font-size: 8pt;
+      letter-spacing: 1px;
+      padding: 25px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+  </style>
+  <meta name="theme-color" content="#333" />
   <title>Restaurant Reviews</title>
 </head>
 
@@ -14,34 +99,29 @@
   <header>
     <nav>
       <h1>
-        <a href="/" tabindex="1">Restaurant Reviews</a>
+        <a href="/">Restaurant Reviews</a>
       </h1>
     </nav>
   </header>
 
   <main id="maincontent">
-    <section id="map-container" tabindex="-1">
-      <div role="application" id="map" tabindex="-1"></div>
+    <section id="map-container">
+      <img id="map"></img>
     </section>
     <section>
       <div class="filter-options">
         <h2>Filter Results</h2>
-        <select tabindex="2" id="neighborhoods-select" aria-label="Please select a place where to find the restaurant" name="neighborhoods" onchange="updateRestaurants()">
+        <select id="neighborhoods-select" aria-label="Please select a place where to find the restaurant" name="neighborhoods"
+          onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
         </select>
-        <select tabindex="3" id="cuisines-select" aria-label="Please select a type of cuisine" name="cuisines" onchange="updateRestaurants()">
+        <select id="cuisines-select" aria-label="Please select a type of cuisine" name="cuisines" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>
       </div>
       <ul id="restaurants-list"></ul>
     </section>
   </main>
-  
-  <script type="application/javascript" charset="utf-8" src="js/apphelper.js"></script>
-  <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
-  <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZbDc-qSx_lvq7HvGB82_TKsKJmcIjlWw&libraries=places&callback=initMap"></script>
-
 
   <footer id="footer">
     Copyright (c) 2017
@@ -49,6 +129,29 @@
       <strong>Restaurant Reviews</strong>
     </a> All Rights Reserved.
   </footer>
+  
+  <script type="application/javascript" charset="utf-8" src="js/idb.min.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/apphelper.min.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/dbhelper.min.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/main.min.js"></script>
+  <noscript id="deferred-styles">
+    <link rel="stylesheet" href="css/styles.min.css">
+  </noscript>
+  <script>
+    var loadDeferredStyles = function () {
+      var addStylesNode = document.getElementById("deferred-styles");
+      var replacement = document.createElement("div");
+      replacement.innerHTML = addStylesNode.textContent;
+      document.body.appendChild(replacement)
+      addStylesNode.parentElement.removeChild(addStylesNode);
+    };
+    var raf = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+      window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    if (raf) raf(function () {
+      window.setTimeout(loadDeferredStyles, 0);
+    });
+    else window.addEventListener('load', loadDeferredStyles);
+  </script>
 
 </body>
 

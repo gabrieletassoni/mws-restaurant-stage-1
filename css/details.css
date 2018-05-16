@@ -1,18 +1,17 @@
-.inside #map-container {
-    background: blue none repeat scroll 0 0;
-    height: 420px;
-    right: 0;
-    width: 100%;
-  }
-  
+  .inside #map-container,
   .inside #map {
-    background-color: #ccc;
-    height: 100%;
-    width: 100%;
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    transition: 1s;
+    transition-property: initial;
+    transition-duration: 1s;
+    transition-timing-function: initial;
+    transition-delay: initial;
   }
-  
+
   #restaurant-name {
-    color: #f18200;
+    color: black;
     font-family: Arial, sans-serif;
     font-size: 20pt;
     font-weight: 200;
@@ -22,16 +21,16 @@
     line-height: 1.1;
     text-align: center;
   }
-  
+
   #restaurant-img {
     width: 100%;
   }
-  
+
   #restaurant-address {
     font-size: 12pt;
     margin: 10px 0px;
   }
-  
+
   #restaurant-cuisine {
     background-color: #333;
     color: #ddd;
@@ -44,7 +43,7 @@
     text-transform: uppercase;
     width: 100%;
   }
-  
+
   #restaurant-container,
   #reviews-container {
     border-bottom: 1px solid #d9d9d9;
@@ -52,25 +51,25 @@
     padding: 1em;
     width: 100%;
   }
-  
+
   #reviews-container {
     padding: 1em;
   }
-  
+
   #reviews-container h2 {
-    color: #f58500;
+    color: black;
     font-size: 24pt;
     font-weight: 300;
     letter-spacing: -1px;
     padding-bottom: 1pt;
     text-align: center;
   }
-  
+
   #reviews-list {
     margin: 0;
     padding: 0;
   }
-  
+
   #reviews-list li {
     background-color: #fff;
     border: 2px solid #f3f3f3;
@@ -82,11 +81,51 @@
     position: relative;
     width: calc(100% - 4px - 2em);
   }
-  
+
   #reviews-list li p {
     margin: 0 0 10px;
   }
-  
+
   #restaurant-hours td {
     color: #666;
   }
+
+  @media screen and (min-width: 800px) {
+    /* .inside #map-container, */
+    #restaurant-container,
+    #reviews-container {
+        width: 50%;
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+    #restaurant-name {
+        display: none;
+    }
+    .inside #map-container {
+        order: 3;
+    }
+    #restaurant-container {
+        order: 1;
+    }
+    #reviews-container {
+        order: 2;
+    }
+    #restaurant-address,
+    #restaurant-hours {
+        padding-left: 1.5em;
+    }
+    #breadcrumb li:last-of-type {
+        color: #f18200;
+        font-family: Arial, sans-serif;
+        font-size: 20pt;
+        font-weight: 200;
+        letter-spacing: 0;
+        margin: 15px 0 30px;
+        text-transform: uppercase;
+        line-height: 1.1;
+    }
+    #reviews-list li {
+        width: 100%;
+    }
+}

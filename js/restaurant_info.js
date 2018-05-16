@@ -1,21 +1,27 @@
 let restaurant;
-var map;
+// var map;
+var mapUrl;
 
 /**
  * Initialize Google map, called from HTML.
  */
-window.initMap = () => {
+// window.initMap = () => {
+document.body.onload = (event) => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
       console.error(error);
     } else {
-      self.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 16,
-        center: restaurant.latlng,
-        scrollwheel: false
-      });
+      // self.map = new google.maps.Map(document.getElementById('map'), {
+      //   zoom: 16,
+      //   center: restaurant.latlng,
+      //   scrollwheel: false
+      // });
       fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+      mapUrl = `https://maps.googleapis.com/maps/api/staticmap?size=512x200&scale=2&zoom=11&center=${restaurant.latlng.lat},${restaurant.latlng.lng}&key=AIzaSyCZbDc-qSx_lvq7HvGB82_TKsKJmcIjlWw&maptype=roadmap&format=jpg&visual_refresh=true&markers=size:mid%7Ccolor:red%7C${restaurant.latlng.lat},${restaurant.latlng.lng}`
+      const mapImg = document.getElementById('map');
+      mapImg.alt = 'Map containing current restaurant location';
+      mapImg.src = mapUrl;
+      // DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
   });
 }
@@ -81,12 +87,12 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     const row = document.createElement('tr');
 
     const day = document.createElement('td');
-    day.tabIndex = 8;
+    // day.tabIndex = 8;
     day.innerHTML = key;
     row.appendChild(day);
 
     const time = document.createElement('td');
-    time.tabIndex = 8;
+    // time.tabIndex = 8;
     time.innerHTML = operatingHours[key];
     row.appendChild(time);
 
@@ -100,7 +106,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
-  title.tabIndex = 15;
+  // title.tabIndex = 15;
   title.innerHTML = 'Reviews';
   container.appendChild(title);
 
@@ -124,22 +130,22 @@ createReviewHTML = (review) => {
   const li = document.createElement('li');
 
   const name = document.createElement('p');
-  name.tabIndex = 19;
+  // name.tabIndex = 19;
   name.innerHTML = review.name;
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.tabIndex = 19;
+  // date.tabIndex = 19;
   date.innerHTML = review.date;
   li.appendChild(date);
 
   const rating = document.createElement('p');
-  rating.tabIndex = 19;
+  // rating.tabIndex = 19;
   rating.innerHTML = `Rating: ${review.rating}`;
   li.appendChild(rating);
 
   const comments = document.createElement('p');
-  comments.tabIndex = 19;
+  // comments.tabIndex = 19;
   comments.innerHTML = review.comments;
   li.appendChild(comments);
 

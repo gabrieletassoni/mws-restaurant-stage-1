@@ -8,27 +8,63 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 1337 // Change this to your server port
+    return `http://localhost:${port}/restaurants`;
+  }
+
+  /**
+   * INIT DB
+   */
+
+  static initDB() {
+    if (!navigator.serviceWorker) {
+      console.log("Browser can't support serviceworkers")
+      return Promise.resolve();
+    }
+
+    return idb.open('restaurants', 2, upgradeDb => {
+      upgradeDb.createObjectStore('restaurants', {
+        keyPath: 'id'
+      });
+    });
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
+    fetch(DBHelper.DATABASE_URL).then((response) => {
+      return response.json();
+    }).then((restaurants) => {
+      this.initDB().then((db) => {
+        if (!db) return;
+
+        let tx = db.transaction('restaurants', 'readwrite');
+        let store = tx.objectStore('restaurants');
+
+        //filling the DB with response from JSON service
+        restaurants.forEach(function (restaurant) {
+          store.put(restaurant);
+        });
+
         callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
+      });
+    }).catch((error) => {
+      console.log(error);
+      // Fallback to local data if online fails
+      this.initDB().then((db) => {
+          if (!db) return;
+
+          var tx = db.transaction('restaurants')
+          var store = tx.objectStore('restaurants');
+
+          store.getAll().then(restaurants => {
+              callback(null, restaurants)
+            })
+            .catch(error => callback(error, null));
+        })
+        .catch(error => callback(error, null));
+    });
   }
 
   /**
@@ -151,7 +187,7 @@ class DBHelper {
    */
   static imageUrlForRestaurant(restaurant, size) {
     // return (`/img/${size}-${restaurant.photograph}`);
-    return (`/img/${size}-${restaurant.id}.webp`);
+    return (`/img/${size}-${restaurant.photograph || restaurant.id}.webp`);
   }
 
   /**

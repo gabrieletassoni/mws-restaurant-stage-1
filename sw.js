@@ -1,23 +1,11 @@
-var currentCacheName = 'restaurant-reviews-cache-v58';
+var currentCacheName = 'restaurant-reviews-cache-v111';
 
 self.addEventListener('install', function (event) {
   event.waitUntil(
     caches.open(currentCacheName).then(function (cache) {
       return cache.addAll([
         '/',
-        '/sw.js',
-        '/index.html',
-        '/restaurant.html',
-        '/css/breakpoints_details.css',
-        '/css/breakpoints.css',
-        '/css/details.css',
-        '/css/styles.css',
-        '/js/main.js',
-        '/js/restaurant_info.js',
-        '/js/dbhelper.js',
-        '/js/apphelper.js',
-        '/img/',
-        '/data/'
+        '/sw.min.js'
       ]);
     })
   );
