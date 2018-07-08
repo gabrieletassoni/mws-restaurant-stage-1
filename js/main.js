@@ -154,6 +154,8 @@ createRestaurantHTML = (restaurant) => {
   noscriptImage.append(image);
   li.append(noscriptImage);
 
+  const isFavorite = (restaurant.is_favorite === 'true');
+
   const name = document.createElement('h2');
   // name.tabIndex = 5;
   name.innerHTML = restaurant.name;
@@ -169,11 +171,27 @@ createRestaurantHTML = (restaurant) => {
   address.innerHTML = restaurant.address;
   li.append(address);
 
+  const operationsContainer = document.createElement('p');
+  operationsContainer.setAttribute('class', 'operations-container');
+
   const more = document.createElement('a');
   // more.tabIndex = 5;
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more);
+  operationsContainer.append(more);
+
+  const favouriteLink = document.createElement('span');
+  favouriteLink.setAttribute('class', 'fav-link');
+  favouriteLink.setAttribute('id', `fav-link-${restaurant.id}`);
+  // favouriteLink.href = "javascript:void(0);";
+  favouriteLink.innerHTML = (isFavorite ? '♥' : '♡');
+  favouriteLink.addEventListener('click', () => {
+    DBHelper.toggleFavourite(restaurant.id);
+  });
+
+
+  operationsContainer.append(favouriteLink);
+  li.append(operationsContainer);
 
   return li;
 }

@@ -167,6 +167,15 @@ nav h1 a {
   text-transform: uppercase;
 }
 
+.operations-container {
+  width: 100%;
+}
+
+.operations-container a {
+  display: inline-block;
+}
+
+
 /* USEFUL FOR NICE TRANSITION IN LAZY LOADING IMAGES */
 
 img {

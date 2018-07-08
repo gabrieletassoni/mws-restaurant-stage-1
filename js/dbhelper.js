@@ -9,9 +9,16 @@ class DBHelper {
    */
   static get DATABASE_URL() {
     const port = 1337 // Change this to your server port
-    return `http://localhost:${port}/restaurants`;
+    return `http://localhost:${port}/`;
   }
 
+  static get DATABASE_RESTAURANTS_URL(){
+    return `${this.DATABASE_URL}restaurants`;
+  }
+
+  static get DATABASE_REVIEWS_URL(){
+    return `${this.DATABASE_URL}reviews`;
+  }
   /**
    * INIT DB
    */
@@ -22,10 +29,11 @@ class DBHelper {
       return Promise.resolve();
     }
 
-    return idb.open('restaurants', 2, upgradeDb => {
-      upgradeDb.createObjectStore('restaurants', {
+    return idb.open('mws', 1, upgradeDb => {
+      const tableRestaurant = upgradeDb.createObjectStore('restaurants', {
         keyPath: 'id'
       });
+      tableRestaurant.createIndex('changed', 'changed', {unique: false});
     });
   }
 
@@ -33,7 +41,7 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    fetch(DBHelper.DATABASE_URL).then((response) => {
+    fetch(DBHelper.DATABASE_RESTAURANTS_URL).then((response) => {
       return response.json();
     }).then((restaurants) => {
       this.initDB().then((db) => {
@@ -44,7 +52,17 @@ class DBHelper {
 
         //filling the DB with response from JSON service
         restaurants.forEach(function (restaurant) {
-          store.put(restaurant);
+          store.get(parseInt(restaurant.id)).then((local_restaurant) => {
+            // if (restaurant.updatedAt > local_restaurant.updatedAt) {
+            if (local_restaurant.changed === 'false') {
+              // If local copy is not changed, then overwrite with data from REST
+              // If changed, I won't do anything since I'd like to have it synced 
+              // with server before.
+              store.put(restaurant);
+            }
+          }).catch((error) => {
+            store.put(restaurant);
+          });
         });
 
         callback(null, restaurants);
@@ -182,6 +200,11 @@ class DBHelper {
     return (`./restaurant.html?id=${restaurant.id}`);
   }
 
+  // Trying a RESTful approach
+  // static urlForToggleFav(restaurant) {
+  //   return (`./?toggleFav="true"&&restaurantId=${restaurant.id}`);
+  // }
+
   /**
    * Restaurant image URL.
    */
@@ -204,4 +227,48 @@ class DBHelper {
     return marker;
   }
 
+  /**
+   * 
+   * @param {Restaurant Identifier} id 
+   * 
+   * 
+   */
+  static toggleFavourite(id) {
+    console.log(`Change favorite value for ${id}`)
+    DBHelper.initDB().then((db) => {
+      if (!db) return;
+
+      let tx = db.transaction('restaurants', 'readwrite');
+      let store = tx.objectStore('restaurants');
+
+      store.get(parseInt(id)).then((restaurant) => {
+
+        const isFavorite = (restaurant.is_favorite === 'true');
+        // Record new values to the DB
+        // updatedAt is needed for a way 
+        // to sync back the remote endpoint
+        restaurant.is_favorite = (!isFavorite).toString();
+        restaurant.updatedAt = Date.now();
+        // I cannot find a way to query by comparing dates
+        // thus I switch to a status management (booleanish)
+        restaurant.changed = 'true';
+        store.put(restaurant);
+
+        // Updating UI
+        const favouriteLink = document.getElementById(`fav-link-${restaurant.id}`);
+        favouriteLink.innerHTML = (!isFavorite ? '♥' : '♡');
+
+        // Make the serviceworker transparently
+        // deal with the sync to remote endpoint
+        // if (navigator.onLine) {
+          navigator.serviceWorker.controller.postMessage('favsync');
+          // navigator.serviceWorker.ready.then(function (reg) {
+          //   reg.favsync.then(() => {
+          //     console.log('Start syncing Favorites');
+          //   });
+          // });
+        // }
+      });
+    });
+  }
 }
