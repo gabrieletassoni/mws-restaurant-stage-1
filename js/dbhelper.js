@@ -261,12 +261,11 @@ class DBHelper {
         // Make the serviceworker transparently
         // deal with the sync to remote endpoint
         // if (navigator.onLine) {
-          navigator.serviceWorker.controller.postMessage('favsync');
-          // navigator.serviceWorker.ready.then(function (reg) {
-          //   reg.favsync.then(() => {
-          //     console.log('Start syncing Favorites');
-          //   });
-          // });
+          navigator.serviceWorker.ready.then(function (reg) {
+            reg.sync.register('favsync').then(() => {
+              console.log('Start syncing Favorites');
+            });
+          });
         // }
       });
     });

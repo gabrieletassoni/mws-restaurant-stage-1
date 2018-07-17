@@ -171,8 +171,10 @@ nav h1 a {
   width: 100%;
 }
 
-.operations-container a {
+.operations-container * {
   display: inline-block;
+  width: calc(50% - 1.8em);
+  margin: 0 0.2em;
 }
 
 

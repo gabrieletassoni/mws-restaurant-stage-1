@@ -1,7 +1,7 @@
 importScripts('/js/idb.js'); // Needed to deal with DB from the serviceworker
 importScripts('/js/dbhelper.js'); // Needed to deal with DB from the serviceworker
 
-var currentCacheName = 'restaurant-reviews-cache-v136';
+var currentCacheName = 'restaurant-reviews-cache-v142';
 
 self.addEventListener('install', function (event) {
   event.waitUntil(
@@ -52,15 +52,18 @@ self.addEventListener('message', function (event) {
   if (event.data.action === 'skipWaiting') {
     self.skipWaiting();
     console.log('skip waiting');
-  } else if (event.data === 'favsync') {
-    console.log("Syncing all changed favourites.")
-    event.waitUntil(favSync());
-  }
+  } 
 });
 
 // Whenever the system goes online, then try a sync
 self.addEventListener('online', event => {
   event.waitUntil(favSync());
+});
+
+self.addEventListener('sync', function (event) {
+  if (event.tag === 'favsync') {
+    event.waitUntil(favSync());
+  }
 });
 
 function favSync() {
@@ -90,7 +93,7 @@ function favSync() {
             const tx = db.transaction('restaurants', 'readwrite');
             const store = tx.objectStore('restaurants');
             console.log(returnedRestaurant);
-            console.log("Changet to 0 and saving it");
+            console.log("Setting changed to false and saving it in order to avoid other syncs of the same data");
             returnedRestaurant.changed = 'false';
             store.put(returnedRestaurant);
             resolve('synced');

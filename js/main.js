@@ -180,10 +180,10 @@ createRestaurantHTML = (restaurant) => {
   more.href = DBHelper.urlForRestaurant(restaurant);
   operationsContainer.append(more);
 
-  const favouriteLink = document.createElement('span');
+  const favouriteLink = document.createElement('a');
   favouriteLink.setAttribute('class', 'fav-link');
   favouriteLink.setAttribute('id', `fav-link-${restaurant.id}`);
-  // favouriteLink.href = "javascript:void(0);";
+  favouriteLink.href = "javascript:void(0);";
   favouriteLink.innerHTML = (isFavorite ? '♥' : '♡');
   favouriteLink.addEventListener('click', () => {
     DBHelper.toggleFavourite(restaurant.id);

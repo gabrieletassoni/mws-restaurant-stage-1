@@ -55,8 +55,21 @@ fetchRestaurantFromURL = (callback) => {
  * Create restaurant HTML and add it to the webpage
  */
 fillRestaurantHTML = (restaurant = self.restaurant) => {
+  const isFavorite = (restaurant.is_favorite === 'true');
+
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
+
+  const favouriteLink = document.createElement('a');
+  favouriteLink.setAttribute('class', 'fav-link');
+  favouriteLink.setAttribute('id', `fav-link-${restaurant.id}`);
+  favouriteLink.href = "javascript:void(0);";
+  favouriteLink.innerHTML = (isFavorite ? '♥' : '♡');
+  favouriteLink.addEventListener('click', () => {
+    DBHelper.toggleFavourite(restaurant.id);
+  });
+
+  name.append(favouriteLink);
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
