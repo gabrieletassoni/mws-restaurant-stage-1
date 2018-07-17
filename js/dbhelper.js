@@ -125,7 +125,7 @@ class DBHelper {
     }).catch((error) => {
       console.log("Error Fetching: trying to fetch from DB");
       // Fallback to local data if online fails
-      this.initDB().then((db) => {
+      return this.initDB().then((db) => {
         if (!db) return;
         console.log("DB exists");
 
@@ -136,7 +136,7 @@ class DBHelper {
         const reviewsIndex = store.index("restaurant_id");
         console.log(`Made an index on reviews for restaurant id: ${id}`);
       
-        return reviewsIndex.getAll(id).then(reviews => {
+        return reviewsIndex.getAll(parseInt(id)).then(reviews => {
           console.log(reviews);
           return reviews;
         }).catch(error => console.log(error));
