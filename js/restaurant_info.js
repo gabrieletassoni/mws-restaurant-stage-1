@@ -191,4 +191,49 @@ getParameterByName = (name, url) => {
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
+// querystring parser taken from stackoverflow (DanBrianWhite && Tarik):
+// https://stackoverflow.com/a/2091331
+function getQueryVariable(variable) {
+  var query = window.location.search.substring(1);
+  var vars = query.split('&');
+  for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split('=');
+      if (decodeURIComponent(pair[0]) == variable) {
+          return decodeURIComponent(pair[1]);
+      }
+  }
+  console.log('Query variable %s not found', variable);
+}
+
+submitForm = () => {
+  const name = document.getElementById('name').value;
+  const ind = document.getElementById('rating').selectedIndex;
+  const rating = document.getElementById('rating').options.item(ind).text;
+  const comment = document.getElementById('comment').value;
+  const restaurant_id = document.getElementById('restaurant_id').value;
+
+  if(name === "" || comment == "") return;
+
+  // Making impossible to submit the form two times in a row
+  document.getElementById('submit').value = "Submitting...";
+  document.getElementById('submit').disabled = true;
+  // Resetting form values
+  document.getElementById('name').value = document.getElementById('comment').value = "";
+  document.getElementById('rating').selectedIndex = 0;
+
+  const reviewObj = {
+    // "id": 5,
+		"restaurant_id": restaurant_id,
+		"name": name,
+		"createdAt": Date.now(),
+		"updatedAt": Date.now(),
+		"rating": rating,
+		"comments": comment
+  }
+  console.log(reviewObj);
+  document.getElementById('submit').value = "Submit";
+  document.getElementById('submit').disabled = false;
+  // e.preventDefault();
+}
+
 AppHelper.registerServiceWorker();

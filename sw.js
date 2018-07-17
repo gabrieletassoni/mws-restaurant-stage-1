@@ -1,7 +1,7 @@
 importScripts('/js/idb.js'); // Needed to deal with DB from the serviceworker
 importScripts('/js/dbhelper.js'); // Needed to deal with DB from the serviceworker
 
-var currentCacheName = 'restaurant-reviews-cache-v165';
+var currentCacheName = 'restaurant-reviews-cache-v171';
 
 self.addEventListener('install', function (event) {
   event.waitUntil(
