@@ -149,7 +149,7 @@ createReviewHTML = (review) => {
 
   const date = document.createElement('p');
   // date.tabIndex = 19;
-  date.innerHTML = review.date;
+  date.innerHTML = Date(review.updatedAt);
   li.appendChild(date);
 
   const rating = document.createElement('p');

@@ -1,14 +1,23 @@
 importScripts('/js/idb.js'); // Needed to deal with DB from the serviceworker
 importScripts('/js/dbhelper.js'); // Needed to deal with DB from the serviceworker
 
-var currentCacheName = 'restaurant-reviews-cache-v142';
+var currentCacheName = 'restaurant-reviews-cache-v163';
 
 self.addEventListener('install', function (event) {
   event.waitUntil(
     caches.open(currentCacheName).then(function (cache) {
       return cache.addAll([
         '/',
-        '/sw.min.js'
+        '/css/',
+        '/css/details.min.css',
+        '/css/styles.min.css',
+        '/sw.min.js',
+        '/js/',
+        '/js/apphelper.min.js',
+        '/js/dbhelper.min.js',
+        '/js/idb.min.js',
+        '/js/main.min.js',
+        '/js/restaurant_info.min.js'
       ]);
     })
   );
@@ -64,12 +73,16 @@ self.addEventListener('sync', function (event) {
   if (event.tag === 'favsync') {
     event.waitUntil(favSync());
   }
+
+  if (event.tag == 'revsync') {
+    event.waitUntil(revSync());
+  }
 });
 
 function favSync() {
   return new Promise(function (resolve, reject) {
     console.log('opening DB');
-    idb.open('mws', 1).then((db) => {
+    idb.open('mws', 2).then((db) => {
       console.log('checking DB');
       if (!db) return;
       console.log('DB exists: Starting the update procedure')
