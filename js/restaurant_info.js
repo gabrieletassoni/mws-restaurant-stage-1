@@ -137,35 +137,6 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 }
 
 /**
- * Create review HTML and add it to the webpage.
- */
-createReviewHTML = (review) => {
-  const li = document.createElement('li');
-
-  const name = document.createElement('p');
-  // name.tabIndex = 19;
-  name.innerHTML = review.name;
-  li.appendChild(name);
-
-  const date = document.createElement('p');
-  // date.tabIndex = 19;
-  date.innerHTML = Date(review.updatedAt);
-  li.appendChild(date);
-
-  const rating = document.createElement('p');
-  // rating.tabIndex = 19;
-  rating.innerHTML = `Rating: ${review.rating}`;
-  li.appendChild(rating);
-
-  const comments = document.createElement('p');
-  // comments.tabIndex = 19;
-  comments.innerHTML = review.comments;
-  li.appendChild(comments);
-
-  return li;
-}
-
-/**
  * Add restaurant name to the breadcrumb navigation menu
  */
 fillBreadcrumb = (restaurant = self.restaurant) => {
@@ -222,15 +193,17 @@ submitForm = () => {
   document.getElementById('rating').selectedIndex = 0;
 
   const reviewObj = {
-    // "id": 5,
-		"restaurant_id": restaurant_id,
+    "id": "",
+		"restaurant_id": parseInt(restaurant_id),
 		"name": name,
 		"createdAt": Date.now(),
 		"updatedAt": Date.now(),
-		"rating": rating,
+		"rating": parseInt(rating),
 		"comments": comment
   }
   console.log(reviewObj);
+  // Saving to database and running the sync with online version
+  DBHelper.insertReview(reviewObj);
   document.getElementById('submit').value = "Submit";
   document.getElementById('submit').disabled = false;
   // e.preventDefault();

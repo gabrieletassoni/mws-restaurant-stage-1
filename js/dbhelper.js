@@ -291,6 +291,28 @@ class DBHelper {
     return marker;
   }
 
+
+  static insertReview(review) {
+    DBHelper.initDB().then((db) => {
+      if (!db) return;
+
+      let tx = db.transaction('reviews', 'readwrite');
+      let store = tx.objectStore('reviews');
+
+      store.put(review).then(() => {
+        // Putting new review
+        const ul = document.getElementById('reviews-list');
+        ul.appendChild(createReviewHTML(review));
+
+        // Starting sync with online
+        navigator.serviceWorker.ready.then(function (reg) {
+          reg.sync.register('revsync').then(() => {
+            console.log('Start syncing Revision');
+          });
+        });
+      }).catch(() => console.log("Error! Cannot save review"));
+    });
+  }
   /**
    * 
    * @param {Restaurant Identifier} id 
