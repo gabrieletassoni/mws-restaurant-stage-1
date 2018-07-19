@@ -1,23 +1,23 @@
 importScripts('/js/idb.js'); // Needed to deal with DB from the serviceworker
 importScripts('/js/dbhelper.js'); // Needed to deal with DB from the serviceworker
 
-var currentCacheName = 'restaurant-reviews-cache-v173';
+var currentCacheName = 'restaurant-reviews-cache-v176';
 
 self.addEventListener('install', function (event) {
   event.waitUntil(
     caches.open(currentCacheName).then(function (cache) {
       return cache.addAll([
         '/',
-        '/css/',
-        '/css/details.min.css',
-        '/css/styles.min.css',
         '/sw.min.js',
-        '/js/',
-        '/js/apphelper.min.js',
-        '/js/dbhelper.min.js',
-        '/js/idb.min.js',
-        '/js/main.min.js',
-        '/js/restaurant_info.min.js'
+        // '/css/',
+        // '/css/details.min.css',
+        // '/css/styles.min.css',
+        // '/js/'
+        // '/js/apphelper.min.js',
+        // '/js/dbhelper.min.js',
+        // '/js/idb.min.js',
+        // '/js/main.min.js',
+        // '/js/restaurant_info.min.js'
       ]);
     })
   );
@@ -61,7 +61,7 @@ self.addEventListener('message', function (event) {
   if (event.data.action === 'skipWaiting') {
     self.skipWaiting();
     console.log('skip waiting');
-  } 
+  }
 });
 
 // Whenever the system goes online, then try a sync

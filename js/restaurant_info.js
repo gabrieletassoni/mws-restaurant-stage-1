@@ -6,7 +6,14 @@ var mapUrl;
  * Initialize Google map, called from HTML.
  */
 // window.initMap = () => {
-document.body.onload = (event) => {
+  document.addEventListener('DOMContentLoaded', (event) => {
+    fetchNeighborhoods();
+    fetchCuisines(); 
+    mapUrl = `https://maps.googleapis.com/maps/api/staticmap?size=512x200&scale=2&zoom=11&center=40.722216,-73.987501&key=AIzaSyCZbDc-qSx_lvq7HvGB82_TKsKJmcIjlWw&maptype=roadmap&format=jpg&visual_refresh=true&markers=size:mid%7Ccolor:red`
+  
+    updateRestaurants();
+  });
+  document.addEventListener('DOMContentLoaded', (event) => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
       console.error(error);
@@ -24,7 +31,7 @@ document.body.onload = (event) => {
       // DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
   });
-}
+  });
 
 /**
  * Get current restaurant from page URL.
