@@ -178,6 +178,7 @@ createRestaurantHTML = (restaurant) => {
   // more.tabIndex = 5;
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
+  more.setAttribute('aria-label', `View details of the restaurant ${restaurant.name}`);
   operationsContainer.append(more);
 
   const favouriteLink = document.createElement('a');
